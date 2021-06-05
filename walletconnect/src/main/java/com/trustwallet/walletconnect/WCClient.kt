@@ -34,7 +34,7 @@ open class WCClient (
 ): WebSocketListener() {
     private val TAG = "WCClient"
 
-    private val gson = builder
+    protected val gson = builder
         .serializeNulls()
         .registerTypeAdapter(cancelOrderSerializer)
         .registerTypeAdapter(cancelOrderDeserializer)
@@ -42,6 +42,7 @@ open class WCClient (
         .registerTypeAdapter(tradeOrderDeserializer)
         .registerTypeAdapter(transferOrderSerializer)
         .registerTypeAdapter(transferOrderDeserializer)
+        .registerTypeAdapter(ethTransactionSerializer)
         .create()
 
     private var socket: WebSocket? = null
