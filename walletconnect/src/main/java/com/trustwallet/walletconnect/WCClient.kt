@@ -80,6 +80,7 @@ open class WCClient (
     open var onSignTransaction: (id: Long, transaction: WCSignTransaction) -> Unit = {_, _ -> Unit }
     open var onOktSignTransaction:(id:Long, transaction: WCOKExChainTransaction) -> Unit = {_,_->Unit }
     open var onOktSendTransaction:(id:Long, transaction: WCOKExChainTransaction) -> Unit = { _, _->Unit }
+    open var onSessionUpdate: (id: Long, update: WCSessionUpdate) -> Unit = { _, _ -> Unit }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         Log.d(TAG, "<< websocket opened >>")
@@ -268,6 +269,7 @@ open class WCClient (
                 if (!param.approved) {
                     killSession()
                 }
+                onSessionUpdate(request.id, param)
             }
             WCMethod.ETH_SIGN -> {
                 val params = gson.fromJson<List<String>>(request.params)
